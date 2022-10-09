@@ -11,6 +11,9 @@
       ]"
     />
     <TableRow v-for="entry in dataTable" :dataTable="entry" :key="entry.id" />
+    <div v-if="dataTable.length === 0" class="no-entries-place">
+      Нет данных для отображения
+    </div>
   </div>
 </template>
 
@@ -43,5 +46,9 @@ a {
   align-items: center;
   justify-content: center;
   margin-bottom: 32px;
+}
+.no-entries-place {
+  font-style: italic;
+  margin-top: 16px;
 }
 </style>
