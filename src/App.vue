@@ -56,6 +56,7 @@ export default {
       this.condition = value.condition;
       this.filterText = value.text;
       this.filterTable();
+      this.changePage(1);
     },
     filterTable() {
       switch (this.condition) {
@@ -124,13 +125,11 @@ export default {
       });
   },
   computed: {
-    pageDataTable: {
-      get: function () {
-        return this.viewDataTable.slice(
-          this.maxTableSize * this.page - this.maxTableSize,
-          this.maxTableSize * this.page
-        );
-      },
+    pageDataTable() {
+      return this.viewDataTable.slice(
+        this.maxTableSize * this.page - this.maxTableSize,
+        this.maxTableSize * this.page
+      );
     },
   },
 };
