@@ -72,7 +72,7 @@ export default {
         this.filterText = String(this.filterText);
       if (condition === "равно") return filterValue === this.filterText;
       if (condition === "содержит")
-        return filterValue.includes(this.filterText);
+        return filterValue.includes(String(this.filterText));
       if (condition === "больше") return filterValue > this.filterText;
       if (condition === "меньше") return filterValue < this.filterText;
     },
