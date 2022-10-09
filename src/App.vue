@@ -25,6 +25,7 @@ import MainTable from "./components/MainTable.vue";
 import SortMenu from "./components/SortMenu.vue";
 import TablePagination from "./components/TablePagination.vue";
 import axios from "axios";
+import { convertDate } from "./functions";
 
 const URL = "http://localhost:8081/api/table";
 
@@ -52,9 +53,11 @@ export default {
   },
   methods: {
     changefilterBy(value) {
-      this.filterBy = value.filterBy;
-      this.condition = value.condition;
-      this.filterText = value.text;
+      ({
+        filterBy: this.filterBy,
+        condition: this.condition,
+        text: this.filterText,
+      } = value);
       this.filterTable();
       this.changePage(1);
     },
@@ -89,8 +92,7 @@ export default {
       this.page = newPage;
     },
     sortTable(sort) {
-      this.sort.title = sort[0];
-      this.sort.order = sort[1];
+      [this.sort.title, this.sort.order] = sort;
       this.viewDataTable = this.viewDataTable.sort((prev, next) => {
         const prop = this.sort.title;
         if (typeof prev[prop] === "number") {
@@ -119,7 +121,7 @@ export default {
       .then(() => {
         this.viewDataTable = this.dataTable.map((entry) => {
           delete entry.id;
-          entry.date = entry.date.slice(0, 10);
+          entry.date = convertDate(entry.date);
           return entry;
         });
       });
