@@ -62,31 +62,19 @@ export default {
       this.changePage(1);
     },
     filterTable() {
-      switch (this.condition) {
-        case "равно":
-          this.viewDataTable = this.dataTable.filter(
-            (entry) => entry[this.filterBy] == this.filterText
-          );
-          break;
-        case "содержит":
-          this.viewDataTable = this.dataTable.filter((entry) =>
-            entry[this.filterBy].includes(this.filterText)
-          );
-          break;
-        case "больше":
-          this.viewDataTable = this.dataTable.filter(
-            (entry) => entry[this.filterBy] > this.filterText
-          );
-          break;
-        case "меньше":
-          this.viewDataTable = this.dataTable.filter(
-            (entry) => entry[this.filterBy] < this.filterText
-          );
-          break;
-
-        default:
-          break;
-      }
+      this.viewDataTable = this.dataTable.filter((entry) =>
+        this.applyFilterRule(entry[this.filterBy], this.condition)
+      );
+    },
+    applyFilterRule(filterValue, condition) {
+      if (typeof filterValue === "number") this.filterText = +this.filterText;
+      if (typeof filterValue === "string")
+        this.filterText = String(this.filterText);
+      if (condition === "равно") return filterValue === this.filterText;
+      if (condition === "содержит")
+        return filterValue.includes(this.filterText);
+      if (condition === "больше") return filterValue > this.filterText;
+      if (condition === "меньше") return filterValue < this.filterText;
     },
     changePage(newPage) {
       this.page = newPage;
